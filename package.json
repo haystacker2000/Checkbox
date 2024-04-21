@@ -7,8 +7,8 @@
     "npm": "10.x"
   },
   "workspaces": [
-    "packages/api",
-    "packages/app"
+    "applications/api",
+    "applications/web-app"
   ],
   "scripts": {
     "start": "ts-node src/main.ts",

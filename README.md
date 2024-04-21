@@ -20,5 +20,5 @@
 ### Bugs / limitations
 - 
 
-### Next steps before releasing as a package
-- 
+### Next steps
+- Users can mark tasks as completed
