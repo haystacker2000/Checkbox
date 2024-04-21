@@ -4,12 +4,17 @@
   "description": "API for the task manager",
   "main": "src/main.ts",
   "scripts": {
+    "start": "ts-node src/main.ts",
     "test": "jest"
   },
   "author": "Daniel Hay",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.12.1",
+    "express": "^4.19.2",
     "prisma": "^5.12.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21"
   }
 }
