@@ -1,4 +1,3 @@
-import 'reflect-metadata';
-import { App } from './app';
+import { TaskApi } from './app';
 
-(new App()).start();
+(new TaskApi()).start();
