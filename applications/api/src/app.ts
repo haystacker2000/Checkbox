@@ -4,7 +4,6 @@ import { PrismaClient } from '@prisma/client';
 import { TaskController } from './controllers/task.controller';
 import { errorHandler } from './middleware/error-handler';
 
-
 export class TaskApi {
   readonly app: Express;
   readonly config: { port: number | string };
@@ -17,7 +16,7 @@ export class TaskApi {
     this.app = express();
 
     // Load config
-    this.config = { port: process.env.PORT || 3000 };
+    this.config = { port: process.env.PORT || 4000 };
 
     // Set up services, move to DI later
     this.prisma = new PrismaClient();
