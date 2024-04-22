@@ -3,7 +3,9 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   moduleFileExtensions: ['js', 'json', 'ts'],
-  rootDir: './src',
+  rootDir: '.',
+  roots: ['<rootDir>/applications'],
+  projects: [{ displayName: 'api', roots: ['<rootDir>/applications/api'], transform: { '^.+\\.ts$': 'ts-jest' } }],
   testRegex: '.*\\.spec\\.ts$',
   collectCoverage: false,
   // TODO coverage is not currently working, not sure if it's a windows bug
