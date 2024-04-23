@@ -8,7 +8,8 @@
   },
   "workspaces": [
     "applications/api",
-    "applications/web-app"
+    "applications/web-app",
+    "applications/task-manager-app"
   ],
   "scripts": {
     "start": "ts-node applications/src/main.ts",
