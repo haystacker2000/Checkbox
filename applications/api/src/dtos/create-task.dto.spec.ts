@@ -19,12 +19,15 @@ describe('CreateTaskDto', () => {
     const transform = plainToInstance(CreateTaskDto, testData);
     expect(validateSync(transform).map((error) => error.constraints)).toEqual([
       {
+        isDefined: 'name should not be null or undefined',
         isString: 'name must be a string',
       },
       {
+        isDefined: 'description should not be null or undefined',
         isString: 'description must be a string',
       },
       {
+        isDefined: 'dueAt should not be null or undefined',
         isDate: 'dueAt must be a Date instance',
       },
     ]);
@@ -51,6 +54,7 @@ describe('CreateTasksDto', () => {
     const transform = plainToInstance(CreateTasksDto, testData);
     expect(validateSync(transform).map((error) => error.constraints)).toEqual([
       {
+        isDefined: 'tasks should not be null or undefined',
         isArray: 'tasks must be an array',
       },
     ]);
@@ -61,12 +65,15 @@ describe('CreateTasksDto', () => {
     const transform = plainToInstance(CreateTasksDto, testData);
     expect(validateSync(transform)[0]?.children![0].children?.map((c) => c.constraints)).toEqual([
       {
+        isDefined: 'name should not be null or undefined',
         isString: 'name must be a string',
       },
       {
+        isDefined: 'description should not be null or undefined',
         isString: 'description must be a string',
       },
       {
+        isDefined: 'dueAt should not be null or undefined',
         isDate: 'dueAt must be a Date instance',
       },
     ]);

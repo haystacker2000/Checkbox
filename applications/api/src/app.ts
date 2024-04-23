@@ -3,6 +3,7 @@ import express, { Express, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { TaskController } from './controllers/task.controller';
 import { errorHandler } from './middleware/error-handler';
+import bodyParser from 'body-parser';
 
 export class TaskApi {
   readonly app: Express;
@@ -14,6 +15,7 @@ export class TaskApi {
 
   constructor() {
     this.app = express();
+    this.app.use(bodyParser.json());
 
     // Load config
     this.config = { port: process.env.PORT || 4000 };

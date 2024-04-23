@@ -25,11 +25,19 @@ describe('main.ts', () => {
     prisma = api.prisma;
 
     await prisma.user.create({ data: { id: testUserId, username: 'TEST USER' } });
+  });
+
+  // Could be improved my making tests not interfere with each others data, and
+  // creating data in the 'beforeAll' call.
+  beforeEach(async () => {
     await prisma.task.createMany({ data: testTasks });
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     await prisma.task.deleteMany({ where: { createdById: testUserId } });
+  });
+
+  afterAll(async () => {
     await prisma.user.delete({ where: { id: testUserId } });
   });
 
@@ -42,7 +50,7 @@ describe('main.ts', () => {
   });
 
   describe('GET /user/${userId}/task', () => {
-    it('should return OK', async () => {
+    it('should return 200 OK', async () => {
       const response = await request(app).get(`/user/${testUserId}/task`);
       expect(response.status).toBe(200);
       expect(response.body).toEqual({
@@ -62,7 +70,27 @@ describe('main.ts', () => {
     });
   });
 
-  describe('POST /tasks', () => {});
+  describe('POST /tasks', () => {
+    it('should return 201 Created', async () => {
+      const response = await request(app)
+        .post(`/user/${testUserId}/task`)
+        .send({
+          tasks: [
+            {
+              name: 'Test Task One',
+              description: 'A description',
+              dueAt: new Date(),
+            },
+          ],
+        });
+      expect(response.status).toBe(201);
+      expect(response.body).toEqual({
+        count: 1,
+      });
+    });
+
+    it('should error on invalid body', async () => {});
+  });
 
   describe('PUT /tasks', () => {});
 });
