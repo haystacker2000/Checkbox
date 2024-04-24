@@ -1,5 +1,5 @@
 import { IsArray, IsDate, IsDefined, IsString, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 
 export class CreateTaskDto {
   @IsDefined()
@@ -12,7 +12,9 @@ export class CreateTaskDto {
 
   @IsDefined()
   @IsDate()
-  @Type(() => Date)
+  @Transform(({ value }) => (typeof value === 'string' ? new Date(value) : value), {
+    toClassOnly: true,
+  })
   dueAt: Date;
 }
 

@@ -7,3 +7,9 @@ export interface Task {
   dueAt: string; // Dates returned as ISO strings from API
   completed: boolean;
 }
+
+export interface CreateTask {
+  name: string;
+  description: string;
+  dueAt: Date;
+}

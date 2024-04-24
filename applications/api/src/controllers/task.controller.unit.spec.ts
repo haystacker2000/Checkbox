@@ -27,13 +27,17 @@ describe('TaskController', () => {
         {
           name: 'Test Task One',
           description: 'A description',
-          dueAt: new Date(),
+          dueAt: new Date().toISOString(),
         },
       ];
       mockTaskCreateMany.mockResolvedValue({ message: 'success' });
-      const result = await testClass.create({ params: { userId: '12' }, body: { tasks: testTasks } } as any, {} as any);
+      const mockSend = jest.fn()
+      await testClass.create(
+        { params: { userId: '12' }, body: { tasks: testTasks } } as any,
+        { status: () => ({ send: mockSend })} as any,
+      );
       expect(mockTaskCreateMany).toHaveBeenCalledTimes(1);
-      expect(result).toEqual({ message: 'success' });
+      expect(mockSend).toHaveBeenCalledWith({ message: 'success' });
     });
 
     it('should call throw error for invalid task', async () => {

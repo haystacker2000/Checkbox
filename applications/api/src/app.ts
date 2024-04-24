@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import { TaskController } from './controllers/task.controller';
 import { errorHandler } from './middleware/error-handler';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 
 // To add a catch for errors from rejected promises
 const asyncHandler = (fn: Function) => (req: Request, res: Response, next: NextFunction) => {
@@ -20,6 +21,7 @@ export class TaskApi {
 
   constructor() {
     this.app = express();
+    this.app.use(cors())
     this.app.use(bodyParser.json());
 
     // Load config

@@ -7,9 +7,7 @@
     "npm": "10.x"
   },
   "workspaces": [
-    "applications/api",
-    "applications/web-app",
-    "applications/task-manager-app"
+    "applications/api"
   ],
   "scripts": {
     "start": "ts-node applications/src/main.ts",
