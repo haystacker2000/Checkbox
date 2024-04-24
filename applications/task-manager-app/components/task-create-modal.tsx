@@ -51,7 +51,7 @@ export default function TaskCreateModal(props: { userId: number }) {
   return (
     <>
       <Button onPress={onOpen} color="primary">
-        Open Modal
+        + New task
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
         <ModalContent>
