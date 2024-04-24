@@ -1,9 +1,14 @@
 import 'reflect-metadata';
-import express, { Express, Request, Response } from 'express';
+import express, { Express, NextFunction, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { TaskController } from './controllers/task.controller';
 import { errorHandler } from './middleware/error-handler';
 import bodyParser from 'body-parser';
+
+// To add a catch for errors from rejected promises
+const asyncHandler = (fn: Function) => (req: Request, res: Response, next: NextFunction) => {
+  return Promise.resolve(fn(req, res, next)).catch(next);
+};
 
 export class TaskApi {
   readonly app: Express;
@@ -38,8 +43,8 @@ export class TaskApi {
       res.send({ message: 'API running' });
     });
 
-    this.app.get('/user/:userId/task', this.taskController.list);
-    this.app.post('/user/:userId/task', this.taskController.create);
-    this.app.put('/user/:userId/task/:id', this.taskController.update);
+    this.app.get('/user/:userId/task', asyncHandler(this.taskController.list));
+    this.app.post('/user/:userId/task', asyncHandler(this.taskController.create));
+    this.app.put('/user/:userId/task/:id', asyncHandler(this.taskController.update));
   }
 }

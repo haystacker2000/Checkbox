@@ -89,7 +89,21 @@ describe('main.ts', () => {
       });
     });
 
-    it('should error on invalid body', async () => {});
+    it('should error on invalid body', async () => {
+      const response = await request(app)
+        .post(`/user/${testUserId}/task`)
+        .send({
+          tasks: [
+            {
+              name: 23,
+              description: 'A description',
+              dueAt: new Date(),
+            },
+          ],
+        });
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({ message: 'Invalid task(s)' });
+    });
   });
 
   describe('PUT /tasks', () => {});
