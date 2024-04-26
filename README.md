@@ -36,12 +36,20 @@ There are two apps in this repository, the API and the Task Manager App (UI). Th
     ```
     to start the UI on http://localhost:3000
 
+## Design choices
+Used simple express app for API. Added error middleware, and async handling wrapper so errors thrown from async functions will
+be caught. Picked prisma for the database ORM for easy setup, define a schema and it will generate migrations. Used SQLite for
+easy development DB setup. Used Jest to create unit and integration tests. 
+
+Tried NextJS for the UI, added in Next UI for the table. Learned about the difference between server and client components and how
+to refresh cached data. 
+
 ## Assumptions made
--
+- Users are controlled elsewhere 
 
 ## Improvements
 ### Bugs / limitations
-- Remove npm workspaces since it's not working with NestJS
+- Remove npm workspaces since it's not working with NextJS
 - Add Update flow
 - User ID is hard coded
 - Doing update by replacement (have to pass all editable task fields on update)
@@ -53,6 +61,10 @@ There are two apps in this repository, the API and the Task Manager App (UI). Th
 - Users should be able to update tasks
 - Users should be able to mark tasks as completed
 - Users should be able to archive / delete tasks
+- Add proper auth tokens to get User Ids from, need login flow
+- Figure out how it should be deployed (API in Lambda?)
+- Add UI tests
+- Switch to postgres, setup local docker container with postgres instance for local DB dev.
 
 ### How to approach additional tasks
 #### Sorting
