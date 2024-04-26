@@ -46,12 +46,22 @@ There are two apps in this repository, the API and the Task Manager App (UI). Th
 - User ID is hard coded
 - Doing update by replacement (have to pass all editable task fields on update)
 - Create doesn't return data update
-- No pagination (This would help address the 1000s of tasks)
+- Add pagination to the UI (add pages to table and use in API as query params)
+- Add update to the UI (re-use task create modal and optionally pass in a task)
 
 ### Next steps
 - Users should be able to update tasks
 - Users should be able to mark tasks as completed
-- Add bulk task creation
-- 
+- Users should be able to archive / delete tasks
 
 ### How to approach additional tasks
+#### Sorting
+Add query params to support sorting on the desired fields in either 'ASC' or 'DESC', prisma API supports this
+Use 
+```ts
+type sort { 'field': 'asc' | 'desc' }[]
+```
+as a query param
+
+### Searching by name
+For basic searching use ILIKE on the database, prisma supports this with the `contains` property in the where parameter.

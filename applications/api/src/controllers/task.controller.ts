@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { plainToInstance } from 'class-transformer';
-import { validate  } from 'class-validator';
+import { validate } from 'class-validator';
 import { Request, Response } from 'express';
 import { CreateOrUpdateTaskDto, CreateTasksDto } from '../dtos/create-task.dto';
 import { getUserIdFromRequest } from '../middleware/user-id-handler';
@@ -13,8 +13,16 @@ export class TaskController {
   }
 
   public list = async (req: Request, res: Response) => {
-    const tasks = await this.prisma.task.findMany({ where: { createdById: getUserIdFromRequest(req) } });
-    res.send({ data: tasks });
+    const userId = getUserIdFromRequest(req);
+    const take = typeof req.query.take === 'string' ? parseInt(req.query.take) : undefined;
+    const skip = typeof req.query.skip === 'string' ? parseInt(req.query.skip) : undefined;
+    const count = await this.prisma.task.count({ where: { createdById: userId } });
+    const tasks = await this.prisma.task.findMany({
+      where: { createdById: userId },
+      take,
+      skip,
+    });
+    res.send({ data: tasks, count });
   };
 
   public create = async (req: Request, res: Response) => {
@@ -26,7 +34,7 @@ export class TaskController {
       data: body.tasks.map((t) => ({ ...t, completed: false, createdById: getUserIdFromRequest(req) })),
     });
     res.status(201).send(result);
-  }
+  };
 
   public update = async (req: Request, res: Response) => {
     const body: CreateOrUpdateTaskDto = plainToInstance(CreateOrUpdateTaskDto, req.body);
@@ -40,9 +48,10 @@ export class TaskController {
       },
       data: {
         ...body,
-      }});
-    res.status(200).send({data: result});
-  }
+      },
+    });
+    res.status(200).send({ data: result });
+  };
 
   private getTaskIdFromRequest(req: Request): number {
     const taskId = parseInt(req.params.taskId);

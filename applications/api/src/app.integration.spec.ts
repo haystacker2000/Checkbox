@@ -13,6 +13,13 @@ describe('main.ts', () => {
       dueAt: new Date(),
       completed: false,
     },
+    {
+      createdById: testUserId,
+      name: 'Test Task Two',
+      description: 'A description 2',
+      dueAt: new Date(),
+      completed: false,
+    },
   ];
 
   let api: TaskApi;
@@ -54,6 +61,7 @@ describe('main.ts', () => {
       const response = await request(app).get(`/user/${testUserId}/task`);
       expect(response.status).toBe(200);
       expect(response.body).toEqual({
+        count: 2,
         data: [
           {
             completed: false,
@@ -63,6 +71,35 @@ describe('main.ts', () => {
             dueAt: expect.any(String),
             id: expect.any(Number),
             name: 'Test Task One',
+            updatedAt: expect.any(String),
+          },
+          {
+            completed: false,
+            createdAt: expect.any(String),
+            createdById: testUserId,
+            description: 'A description 2',
+            dueAt: expect.any(String),
+            id: expect.any(Number),
+            name: 'Test Task Two',
+            updatedAt: expect.any(String),
+          },
+        ],
+      });
+    });    
+    it('should return 1 record skipping 1 record', async () => {
+      const response = await request(app).get(`/user/${testUserId}/task`).query({ take: 1, skip: 1});
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({
+        count: 2,
+        data: [
+          {
+            completed: false,
+            createdAt: expect.any(String),
+            createdById: testUserId,
+            description: 'A description 2',
+            dueAt: expect.any(String),
+            id: expect.any(Number),
+            name: 'Test Task Two',
             updatedAt: expect.any(String),
           },
         ],
