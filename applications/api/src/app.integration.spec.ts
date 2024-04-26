@@ -58,7 +58,7 @@ describe('main.ts', () => {
           {
             completed: false,
             createdAt: expect.any(String),
-            createdById: 51252,
+            createdById: testUserId,
             description: 'A description',
             dueAt: expect.any(String),
             id: expect.any(Number),
@@ -106,5 +106,50 @@ describe('main.ts', () => {
     });
   });
 
-  describe('PUT /tasks', () => {});
+  describe('PUT /tasks', () => {
+    let testTask: Task;
+    beforeAll(async () => {
+      testTask = await prisma.task.create({
+        data: {
+          createdById: testUserId,
+          name: 'Test Task for update',
+          description: 'A description to update',
+          dueAt: new Date(2023, 5, 5),
+          completed: false,
+        },
+      });
+    });
+    it('should return 200 OK', async () => {
+      const response = await request(app)
+        .put(`/user/${testUserId}/task/${testTask.id}`)
+        .send({
+          name: 'Test Task updated',
+          description: "A description that's updated",
+          dueAt: new Date(2024, 6, 6),
+        });
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({
+        data: {
+          createdAt: expect.any(String),
+          updatedAt: expect.any(String),
+          id: testTask.id,
+          createdById: testUserId,
+          name: 'Test Task updated',
+          description: "A description that's updated",
+          dueAt: (new Date(2024, 6, 6)).toISOString(),
+          completed: false,
+        },
+      });
+    });
+
+    it('should error on invalid body', async () => {
+      const response = await request(app).put(`/user/${testUserId}/task/${testTask.id}`).send({
+        name: 23,
+        description: 'A description',
+        dueAt: new Date(),
+      });
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({ message: 'Invalid task' });
+    });
+  });
 });

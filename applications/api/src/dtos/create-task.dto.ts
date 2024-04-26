@@ -1,7 +1,7 @@
 import { IsArray, IsDate, IsDefined, IsString, ValidateNested } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 
-export class CreateTaskDto {
+export class CreateOrUpdateTaskDto {
   @IsDefined()
   @IsString()
   name: string;
@@ -22,6 +22,6 @@ export class CreateTasksDto {
   @IsDefined()
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => CreateTaskDto)
-  tasks: CreateTaskDto[];
+  @Type(() => CreateOrUpdateTaskDto)
+  tasks: CreateOrUpdateTaskDto[];
 }

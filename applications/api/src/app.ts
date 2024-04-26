@@ -47,6 +47,6 @@ export class TaskApi {
 
     this.app.get('/user/:userId/task', asyncHandler(this.taskController.list));
     this.app.post('/user/:userId/task', asyncHandler(this.taskController.create));
-    this.app.put('/user/:userId/task/:id', asyncHandler(this.taskController.update));
+    this.app.put('/user/:userId/task/:taskId', asyncHandler(this.taskController.update));
   }
 }

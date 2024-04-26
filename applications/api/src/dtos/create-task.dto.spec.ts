@@ -1,22 +1,22 @@
 import 'reflect-metadata';
 import { validateSync } from 'class-validator';
-import { CreateTaskDto, CreateTasksDto } from './create-task.dto';
+import { CreateOrUpdateTaskDto, CreateTasksDto } from './create-task.dto';
 import { plainToInstance } from 'class-transformer';
 
 describe('CreateTaskDto', () => {
   it('should pass for a valid object', () => {
-    const testData: CreateTaskDto = {
+    const testData: CreateOrUpdateTaskDto = {
       name: 'name',
       description: 'a description',
       dueAt: new Date(),
     };
-    const transform = plainToInstance(CreateTaskDto, testData);
+    const transform = plainToInstance(CreateOrUpdateTaskDto, testData);
     expect(validateSync(transform)).toEqual([]);
   });
 
   it('should error for an invalid object', () => {
     const testData = {};
-    const transform = plainToInstance(CreateTaskDto, testData);
+    const transform = plainToInstance(CreateOrUpdateTaskDto, testData);
     expect(validateSync(transform).map((error) => error.constraints)).toEqual([
       {
         isDefined: 'name should not be null or undefined',
